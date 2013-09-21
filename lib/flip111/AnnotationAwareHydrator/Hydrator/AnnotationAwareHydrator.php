@@ -64,7 +64,6 @@ class AnnotationAwareHydrator implements HydratorInterface {
      */
     public function extract($object)
     {
-echo 'Hydrator -> Extract<br />';
         $result = array();
         foreach (self::getReflProperties($object) as $property) {
             $annotations = static::$annotationReader->getPropertyAnnotations($property);
@@ -74,12 +73,9 @@ echo 'Hydrator -> Extract<br />';
             $skip = true;
             foreach ($annotations as $a) {
               if ($a instanceof Extract) {
-                var_dump($a);
                 $preFilters = $a->preFilters;
                 $postFilters = $a->postFilters;
                 $strategy = $a->modifier;
-                echo 'Strategy:';
-                var_dump($strategy);
                 $skip = false;
                 break; // Only allow the first Extract annotation
               }
@@ -120,7 +116,6 @@ echo 'Hydrator -> Extract<br />';
      */
     public function hydrate(array $data, $object)
     {
-echo 'Hydrator -> Hydrate<br />';
         $reflProperties = self::getReflProperties($object);
         foreach ($data as $key => $value) {
             if (isset($reflProperties[$key])) {
