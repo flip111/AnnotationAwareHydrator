@@ -8,17 +8,6 @@ use flip111\AnnotationAwareHydrator\Annotation\Extract;
 use flip111\AnnotationAwareHydrator\Annotation\Hydrate;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 
-/**
- * Copied most of this stuff from AbstractHydrator.php and Reflection.php
- * 
- * To-Do:
- * 1) Integrate with https://github.com/Ocramius/GeneratedHydrator
- * 2) Wait for Zend Framework 3 to have better FilterInterfaces, see https://github.com/zendframework/zf2/issues/5099
- * 3) Use annotation caching
- *    - Using the native Doctrine implemtation (prefered)
- *    - possibly use a technique like https://github.com/zendframework/zf2/blob/master/library/Zend/Stdlib/Hydrator/Filter/OptionalParametersFilter.php#L28
- * 4) Check if the original object can be extended and the AnnotationAwareHydrator still works
- */
 class AnnotationAwareHydrator implements HydratorInterface {
     /**
      * The list with strategies that this hydrator has.
@@ -41,19 +30,12 @@ class AnnotationAwareHydrator implements HydratorInterface {
      */
     protected static $annotationReader;
     
-    /**
-     * http://shellrock.files.wordpress.com/2009/11/ist2_5339150-cartoon-construction-worker.jpg
-     */
     public function __construct() {
       $this->strategies = new ArrayObject();
       
       if (! (static::$annotationReader instanceof AnnotationReader)) {
         static::$annotationReader = new AnnotationReader();
       }
-      
-      // Possible cache the annotations themself ? with Doctrine cache or
-      // C:\xampp\htdocs\Timey23\vendor\zendframework\zend-stdlib\Zend\Stdlib\Hydrator\Filter\OptionalParametersFilter.php
-      // like properties cache ...
     }
     
     /**
@@ -69,6 +51,7 @@ class AnnotationAwareHydrator implements HydratorInterface {
             $annotations = static::$annotationReader->getPropertyAnnotations($property);
             $propertyName = $property->getName();
             $value = $property->getValue($object);
+
             $skip = true;
             foreach ($annotations as $a) {
               if ($a instanceof Extract) {
