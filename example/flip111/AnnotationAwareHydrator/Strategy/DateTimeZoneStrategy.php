@@ -9,7 +9,6 @@ class DateTimeZoneStrategy implements StrategyInterface {
   }
   
   public function hydrate($value) {
-    echo 'zeh value';
     return new \DateTimeZone($value);
   }
 }

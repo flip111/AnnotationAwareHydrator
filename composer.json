@@ -1,0 +1,13 @@
+{
+    "name": "flip111/AnnotationAwareHydrator",
+    "type": "library",
+    "description": "Hydrator/Extractor for PHP with annotation support.",
+    "keywords": ["hydrator", "extractor", "annotation", "filter", "modifier"],
+    "homepage": "https://github.com/flip111/AnnotationAwareHydrator",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "require": {
+        "zendframework/zend-stdlib": ">=2.0.0",
+        "doctrine/annotations": ">=v1.0"
+    },
+}
