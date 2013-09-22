@@ -6,11 +6,11 @@ namespace flip111\AnnotationAwareHydrator\Modifier;
  * @Target({"ANNOTATION"})
  */
 class DateTimeZoneTwoWay extends AbstractTwoWayModifier {
-  public function extract($datetimezone) {
+  public function extract($datetimezone, $object) {
     return $datetimezone->getName();
   }
   
-  public function hydrate($timezonestring) {
+  public function hydrate($timezonestring, Array $array) {
     return new \DateTimeZone($timezonestring);
   }
 }

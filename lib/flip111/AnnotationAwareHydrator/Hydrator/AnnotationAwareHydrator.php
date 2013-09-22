@@ -52,6 +52,8 @@ class AnnotationAwareHydrator implements HydratorInterface {
             $propertyName = $property->getName();
             $value = $property->getValue($object);
 
+            if ($value === null) continue;
+
             $skip = true;
             foreach ($annotations as $a) {
               if ($a instanceof Extract) {
