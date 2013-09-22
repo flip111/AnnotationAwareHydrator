@@ -10,10 +10,9 @@ Because it's nice to keep this information with the object instead of writing th
 
 ##How?
 
-###Simple
 Add the annotations to your object properties.
 
-```
+```php
 <?php
 namespace My\Nice\Name\space;
 
@@ -33,8 +32,8 @@ class MyObject {
 }
 ```
 
-Extracting
-```
+###Extracting
+```php
 <?php
 namespace My\Nice\Name\space;
 
@@ -56,8 +55,8 @@ array (size=1)
   'prop1' => string 'First' (length=5)
 ```
 
-Hydrating
-```
+###Hydrating
+```php
 <?php
 namespace My\Nice\Name\space;
 
@@ -90,7 +89,7 @@ object(My\Nice\Name\space\MyObject)[983]
 
 ###2. Allows you to modify the value while hydrating/extracting
 Example object:
-```
+```php
 <?php
 namespace My\Nice\Name\space;
 
@@ -105,8 +104,8 @@ class MyObject {
 }
 ```
 
-You will have to write your own modifier, which is very easy. There are two kinds of modifiers. One that defines both hydrating and extracting, useful for back and forth conversions. And one that only defines on modifying action, of which there will be an example below.
-```
+You will have to write your own modifier, which is very easy. There are two kinds of modifiers. One that defines both hydrating and extracting, useful for back and forth conversions (see AbstractTwoWayModifier in the example folder). And one that only defines on modifying action, of which there will be an example below.
+```php
 <?php
 namespace My\Nice\Name\space\annotation;
 
@@ -122,7 +121,7 @@ class PastryModifier extends AbstractOneWayModifier {
 ```
 
 Example:
-```
+```php
 <?php
 $object->prop1 = 'Peter Griffin ate a cake.';
 $array = $hydrator->extract($object);
@@ -137,7 +136,7 @@ $array == [
 ###3. Filter out values.
 The preFilters value is used for applying filters before the modifier. postFilters for after. This is especially useful when changing data type.
 Example object:
-```
+```php
 <?php
 namespace My\Nice\Name\space;
 
@@ -158,7 +157,7 @@ class MyObject {
 }
 ```
 
-```
+```php
 <?php
 namespace My\Nice\Name\space\Filter;
 
@@ -176,7 +175,7 @@ class DummyFilter implements FilterInterface {
 ```
 
 Example:
-```
+```php
 <?php
 $object->prop1 = 'Peter Griffin ate a cake.';
 $object->prop2 = 'And Stewie ate a cake too.';
