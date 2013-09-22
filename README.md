@@ -14,6 +14,7 @@ Because it's nice to keep this information with the object instead of writing th
 Add the annotations to your object properties.
 
 ```
+<?php
 namespace My\Nice\Name\space;
 
 use flip111\AnnotationAwareHydrator\Annotation\Hydrate;
@@ -34,6 +35,7 @@ class MyObject {
 
 Extracting
 ```
+<?php
 namespace My\Nice\Name\space;
 
 use flip111\AnnotationAwareHydrator\Hydrator\AnnotationAwareHydrator;
@@ -56,6 +58,7 @@ array (size=1)
 
 Hydrating
 ```
+<?php
 namespace My\Nice\Name\space;
 
 use flip111\AnnotationAwareHydrator\Hydrator\AnnotationAwareHydrator;
@@ -79,4 +82,109 @@ Output:
 object(My\Nice\Name\space\MyObject)[983]
   public 'prop1' => null
   public 'prop2' => string 'Second' (length=6)
+```
+
+##Features
+
+###1. Uses reflection so you can use protected and private properties.
+
+###2. Allows you to modify the value while hydrating/extracting
+Example object:
+```
+<?php
+namespace My\Nice\Name\space;
+
+use flip111\AnnotationAwareHydrator\Annotation\Extract;
+use My\Nice\Name\space\Modifier\PastryModifier;
+
+class MyObject {
+	/**
+	 * @Extract(modifier=@PastryModifier)
+	 */
+	public $prop1;
+}
+```
+
+You will have to write your own modifier, which is very easy. There are two kinds of modifiers. One that defines both hydrating and extracting, useful for back and forth conversions. And one that only defines on modifying action, of which there will be an example below.
+```
+<?php
+namespace My\Nice\Name\space\annotation;
+
+/**
+ * @Annotation
+ * @Target({"ANNOTATION"})
+ */
+class PastryModifier extends AbstractOneWayModifier {
+  public function modify($value) {
+    return str_replace('cake', 'cookie', $value);
+  }
+}
+```
+
+Example:
+```
+<?php
+$object->prop1 = 'Peter Griffin ate a cake.';
+$array = $hydrator->extract($object);
+```
+Result:
+```
+$array == [
+	'prop1' => 'Peter Griffin ate a cookie.'
+]
+```
+
+###3. Filter out values.
+The preFilters value is used for applying filters before the modifier. postFilters for after. This is especially useful when changing data type.
+Example object:
+```
+<?php
+namespace My\Nice\Name\space;
+
+use flip111\AnnotationAwareHydrator\Annotation\Extract;
+use My\Nice\Name\space\Modifier\PastryModifier;
+use My\Nice\Name\space\Filter\PeterFilter;
+
+class MyObject {
+	/**
+	 * @Extract(preFilters={@PeterFilter}, modifier=@PastryModifier)
+	 */
+	public $prop1;
+	
+	/**
+	 * @Extract(preFilters={@PeterFilter}, modifier=@PastryModifier)
+	 */
+	public $prop2;
+}
+```
+
+```
+<?php
+namespace My\Nice\Name\space\Filter;
+
+use Zend\Stdlib\Hydrator\Filter\FilterInterface;
+
+/**
+ * @Annotation
+ * @Target({"ANNOTATION"})
+ */
+class DummyFilter implements FilterInterface {
+  public function filter($value) {
+    return ! strpos($value, 'Peter'); // Filter out all Peter's !!
+  }
+}
+```
+
+Example:
+```
+<?php
+$object->prop1 = 'Peter Griffin ate a cake.';
+$object->prop2 = 'And Stewie ate a cake too.';
+$array = $hydrator->extract($object);
+```
+Result:
+```
+$array == [
+	'prop2' => 'And Stewie ate a cookie too.'
+]
 ```

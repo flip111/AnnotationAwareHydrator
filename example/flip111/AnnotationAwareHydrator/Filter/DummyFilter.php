@@ -8,10 +8,6 @@ use Zend\Stdlib\Hydrator\Filter\FilterInterface;
  * @Target({"ANNOTATION"})
  */
 class DummyFilter implements FilterInterface {
-  public function __construct() {
-    $a = 'hoi';
-  }
-  
   public function filter($value) {
     return true;
   }
