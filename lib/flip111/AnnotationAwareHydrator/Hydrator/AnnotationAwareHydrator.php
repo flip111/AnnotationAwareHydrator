@@ -73,7 +73,7 @@ class AnnotationAwareHydrator implements HydratorInterface {
             
             // Applying Conversion by using Strategy
             if (isset($strategy)) {
-              $value = $strategy->extract($value);
+              $value = $strategy->extract($value, $object);
             }
 
             // Applying PostFilters
@@ -124,7 +124,7 @@ class AnnotationAwareHydrator implements HydratorInterface {
 
                 // Applying Conversion by using Strategy
                 if (isset($strategy)) {
-                  $value = $strategy->hydrate($value);
+                  $value = $strategy->hydrate($value, $data);
                 }
 
                 // Applying PostFilters

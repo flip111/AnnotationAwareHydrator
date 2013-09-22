@@ -1,10 +1,8 @@
 <?php
 namespace flip111\AnnotationAwareHydrator\Modifier;
 
-use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
-
-abstract class AbstractTwoWayModifier implements StrategyInterface {
-  abstract public function extract($value);
+abstract class AbstractTwoWayModifier {
+  abstract public function extract($value, $object);
   
-  abstract public function hydrate($value);
+  abstract public function hydrate($value, Array $array);
 }

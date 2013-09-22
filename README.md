@@ -109,6 +109,8 @@ You will have to write your own modifier, which is very easy. There are two kind
 <?php
 namespace My\Nice\Name\space\annotation;
 
+use flip111\AnnotationAwareHydrator\Modifier\AbstractOneWayModifier;
+
 /**
  * @Annotation
  * @Target({"ANNOTATION"})
