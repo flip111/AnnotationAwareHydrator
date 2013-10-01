@@ -8,6 +8,11 @@ While selecting only the properties/values you want, ignoring the rest.
 ##Why?
 Because it's nice to keep this information with the object instead of writing that logic somewhere in a service. Like Doctrine uses @Column to indicate a property has to be written to the database. This library uses @Extract and @Hydrate to indicate you want the property hydrated or extracted.
 
+##Installing
+This package has not been submitted to packagist.org (yet). You can load it with composer using these steps:
+http://getcomposer.org/doc/05-repositories.md#loading-a-package-from-a-vcs-repository
+The package name is: "flip111/annotation-aware-hydrator"
+
 ##How?
 
 Add the annotations to your object properties.
